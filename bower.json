@@ -1,0 +1,25 @@
+{
+  "name": "smartadmin-plugins",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Yura Griga <grigach@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/griga/smartadmin-plugins",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "relayfoods-jquery.sparkline": "^2.1.4",
+    "jquery.easy-pie-chart": "^2.1.6",
+    "highchartTable": "^2.0.0",
+    "Flot": "flot#^0.8.3",
+    "flot.tooltip": "~0.8.5",
+    "flot.orderbars": "*"
+  }
+}
