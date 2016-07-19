@@ -20,6 +20,7 @@
     "highchartTable": "^2.0.0",
     "Flot": "flot#^0.8.3",
     "flot.tooltip": "~0.8.5",
-    "flot.orderbars": "*"
+    "flot.orderbars": "*",
+    "fullcalendar": "^2.9.0"
   }
 }
