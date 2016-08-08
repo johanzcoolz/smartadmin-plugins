@@ -22,6 +22,7 @@
     "flot.tooltip": "~0.8.5",
     "flot.orderbars": "*",
     "fullcalendar": "^2.9.0",
-    "bootstrapvalidator": "^0.5.3"
+    "bootstrapvalidator": "^0.5.3",
+    "jquery-nestable": "*"
   }
 }
