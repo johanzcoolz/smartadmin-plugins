@@ -1,35 +1,47 @@
 'use strict';
 
-/*
- * SMARTCHAT PLUGIN ARRAYS & CONFIG
- * Dependency: js/plugin/moment/moment.min.js
- *             js/plugin/cssemotions/jquery.cssemoticons.min.js
- *             js/smart-chat-ui/smart.chat.ui.js
- * (DO NOT CHANGE)
- */
-var boxList = [],
-    showList = [],
-    nameList = [],
-    idList = [];
-/*
- * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
- */
-var chatbox_config = {
-    width: 200,
-    gap: 35,
-    offset: 0
-};
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['jquery', 'moment'], factory);
+    }
+    else if (typeof exports === 'object') { // Node/CommonJS
+        module.exports = factory(require('jquery'), require('moment'));
+    }
+    else {
+        factory(jQuery, moment);
+    }
+})(function ($, moment) {
+
+    /*
+     * SMARTCHAT PLUGIN ARRAYS & CONFIG
+     * Dependency: js/plugin/moment/moment.min.js
+     *             js/plugin/cssemotions/jquery.cssemoticons.min.js
+     *             js/smart-chat-ui/smart.chat.ui.js
+     * (DO NOT CHANGE)
+     */
+    var boxList = [],
+        showList = [],
+        nameList = [],
+        idList = [];
+    /*
+     * Width of the chat boxes, and the gap inbetween in pixel (minus padding)
+     */
+    var chatbox_config = {
+        width: 200,
+        gap: 35,
+        offset: 0
+    };
 
 
-/*
- * SMART CHAT ENGINE
- * Copyright (c) 2013 Wen Pu
- * Modified by MyOrange
- * All modifications made are hereby copyright (c) 2014-2015 MyOrange
- */
+    /*
+     * SMART CHAT ENGINE
+     * Copyright (c) 2013 Wen Pu
+     * Modified by MyOrange
+     * All modifications made are hereby copyright (c) 2014-2015 MyOrange
+     */
 
 // TODO: implement destroy()
-(function ($) {
+
     $.widget("ui.chatbox", {
         options: {
             id: null, //id for the DOM element
@@ -117,11 +129,11 @@ var chatbox_config = {
             var self = this,
                 options = self.options,
                 title = options.title || "No Title",
-            // chatbox
+                // chatbox
                 uiChatbox = (self.uiChatbox = $('<div></div>'))
                     .appendTo(document.body)
                     .addClass('ui-widget ' +
-                            //'ui-corner-top ' +
+                        //'ui-corner-top ' +
                         'ui-chatbox'
                     )
                     .attr('outline', 0)
@@ -133,10 +145,10 @@ var chatbox_config = {
                     .focusout(function () {
                         self.uiChatboxTitlebar.removeClass('ui-state-focus');
                     }),
-            // titlebar
+                // titlebar
                 uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
                     .addClass('ui-widget-header ' +
-                            //'ui-corner-top ' +
+                        //'ui-corner-top ' +
                         'ui-chatbox-titlebar ' +
                         self.options.status +
                         ' ui-dialog-header' // take advantage of dialog header style
@@ -189,7 +201,7 @@ var chatbox_config = {
                     .addClass('fa ' +
                         'fa-minus')
                     .appendTo(uiChatboxTitlebarMinimize),
-            // content
+                // content
                 uiChatboxContent = (self.uiChatboxContent = $('<div class="' + self.options.alertshow + '"><span class="alert-msg">' + self.options.alertmsg + '</span></div>'))
                     .addClass('ui-widget-content ' +
                         'ui-chatbox-content '
@@ -285,21 +297,20 @@ var chatbox_config = {
             this.uiChatbox.css("right", offset);
         }
     });
-}(jQuery));
 
 
-/*
- * jQuery CSSEmoticons plugin 0.2.9
- *
- * Copyright (c) 2010 Steve Schwartz (JangoSteve)
- *
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
- *
- * Date: Sun Oct 22 1:00:00 2010 -0500
- */
-(function ($) {
+    /*
+     * jQuery CSSEmoticons plugin 0.2.9
+     *
+     * Copyright (c) 2010 Steve Schwartz (JangoSteve)
+     *
+     * Dual licensed under the MIT and GPL licenses:
+     *   http://www.opensource.org/licenses/mit-license.php
+     *   http://www.gnu.org/licenses/gpl.html
+     *
+     * Date: Sun Oct 22 1:00:00 2010 -0500
+     */
+
     $.fn.emoticonize = function (options) {
 
         var opts = $.extend({}, $.fn.emoticonize.defaults, options);
@@ -429,94 +440,96 @@ var chatbox_config = {
     }
 
     $.fn.emoticonize.defaults = {animate: true, delay: 500, exclude: 'pre,code,.no-emoticons'}
-})(jQuery);
-
-var chatboxManager = function () {
-
-    var init = function (options) {
-        $.extend(chatbox_config, options)
-    };
 
 
-    var delBox = function (id) {
-        // TODO
-    };
+    var chatboxManager = function () {
 
-    var getNextOffset = function () {
-        return (chatbox_config.width + chatbox_config.gap) * showList.length;
-    };
+        var init = function (options) {
+            $.extend(chatbox_config, options)
+        };
 
-    var boxClosedCallback = function (id) {
-        // close button in the titlebar is clicked
-        var idx = showList.indexOf(id);
-        if (idx != -1) {
-            showList.splice(idx, 1);
-            var diff = chatbox_config.width + chatbox_config.gap;
-            for (var i = idx; i < showList.length; i++) {
-                chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
-                $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
+
+        var delBox = function (id) {
+            // TODO
+        };
+
+        var getNextOffset = function () {
+            return (chatbox_config.width + chatbox_config.gap) * showList.length;
+        };
+
+        var boxClosedCallback = function (id) {
+            // close button in the titlebar is clicked
+            var idx = showList.indexOf(id);
+            if (idx != -1) {
+                showList.splice(idx, 1);
+                var diff = chatbox_config.width + chatbox_config.gap;
+                for (var i = idx; i < showList.length; i++) {
+                    chatbox_config.offset = $("#" + showList[i]).chatbox("option", "offset");
+                    $("#" + showList[i]).chatbox("option", "offset", chatbox_config.offset - diff);
+                }
+            } else {
+                alert("NOTE: Id missing from array: " + id);
             }
-        } else {
-            alert("NOTE: Id missing from array: " + id);
+        };
+
+        // caller should guarantee the uniqueness of id
+        var addBox = function (id, user, name) {
+            var idx1 = showList.indexOf(id);
+            var idx2 = boxList.indexOf(id);
+            if (idx1 != -1) {
+                // found one in show box, do nothing
+            } else if (idx2 != -1) {
+                // exists, but hidden
+                // show it and put it back to showList
+                $("#" + id).chatbox("option", "offset", getNextOffset());
+                var manager = $("#" + id).chatbox("option", "boxManager");
+                manager.toggleBox();
+                showList.push(id);
+            } else {
+                var el = document.createElement('div');
+                el.setAttribute('id', id);
+                $(el).chatbox({
+                    id: id,
+                    user: user,
+                    title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
+                    hidden: false,
+                    offset: getNextOffset(),
+                    width: chatbox_config.width,
+                    status: user.status,
+                    alertmsg: user.alertmsg,
+                    alertshow: user.alertshow,
+                    messageSent: dispatch,
+                    boxClosed: boxClosedCallback
+                });
+                boxList.push(id);
+                showList.push(id);
+                nameList.push(user.first_name);
+            }
+        };
+
+        var messageSentCallback = function (id, user, msg) {
+            var idx = boxList.indexOf(id);
+            chatbox_config.messageSent(nameList[idx], msg);
+        };
+
+        // not used in demo
+        var dispatch = function (id, user, msg) {
+            //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
+            if ($('#chatlog').length) {
+                $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);
+
+            }
+            $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
         }
-    };
 
-    // caller should guarantee the uniqueness of id
-    var addBox = function (id, user, name) {
-        var idx1 = showList.indexOf(id);
-        var idx2 = boxList.indexOf(id);
-        if (idx1 != -1) {
-            // found one in show box, do nothing
-        } else if (idx2 != -1) {
-            // exists, but hidden
-            // show it and put it back to showList
-            $("#" + id).chatbox("option", "offset", getNextOffset());
-            var manager = $("#" + id).chatbox("option", "boxManager");
-            manager.toggleBox();
-            showList.push(id);
-        } else {
-            var el = document.createElement('div');
-            el.setAttribute('id', id);
-            $(el).chatbox({
-                id: id,
-                user: user,
-                title: '<i title="' + user.status + '"></i>' + user.first_name + " " + user.last_name,
-                hidden: false,
-                offset: getNextOffset(),
-                width: chatbox_config.width,
-                status: user.status,
-                alertmsg: user.alertmsg,
-                alertshow: user.alertshow,
-                messageSent: dispatch,
-                boxClosed: boxClosedCallback
-            });
-            boxList.push(id);
-            showList.push(id);
-            nameList.push(user.first_name);
-        }
-    };
+        return {
+            init: init,
+            addBox: addBox,
+            delBox: delBox,
+            dispatch: dispatch
+        };
+    }();
 
-    var messageSentCallback = function (id, user, msg) {
-        var idx = boxList.indexOf(id);
-        chatbox_config.messageSent(nameList[idx], msg);
-    };
+    return chatboxManager;
 
-    // not used in demo
-    var dispatch = function (id, user, msg) {
-        //$("#log").append("<i>" + moment().calendar() + "</i> you said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>");
-        if ($('#chatlog').length) {
-            $("#chatlog").append("You said to <b>" + user.first_name + " " + user.last_name + ":</b> " + msg + "<br/>").effect("highlight", {}, 500);
-
-        }
-        $("#" + id).chatbox("option", "boxManager").addMsg("Me", msg);
-    }
-
-    return {
-        init: init,
-        addBox: addBox,
-        delBox: delBox,
-        dispatch: dispatch
-    };
-}();
-
-module.exports = chatboxManager
+})
