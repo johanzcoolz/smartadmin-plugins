@@ -6,14 +6,23 @@ const uglify = require('gulp-uglify');
 
 const sources = {
   flot: [
-   'bower_components/Flot/jquery.flot.js',
-   'bower_components/Flot/jquery.flot.resize.js',
-   'bower_components/Flot/jquery.flot.fillbetween.js',
-   'bower_components/flot.orderbars/js/jquery.flot.orderBars.js',
-      'bower_components/Flot/jquery.flot.categories.js',
-   'bower_components/Flot/jquery.flot.pie.js',
-   'bower_components/Flot/jquery.flot.time.js',
-   'bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js',
+//   'bower_components/Flot/jquery.flot.js',
+//   'bower_components/Flot/jquery.flot.resize.js',
+// 'bower_components/Flot/jquery.flot.fillbetween.js',
+   //'bower_components/flot.orderbars/js/jquery.flot.orderBars.js',
+   //'bower_components/Flot/jquery.flot.categories.js',
+   //'bower_components/Flot/jquery.flot.pie.js',
+   //'bower_components/Flot/jquery.flot.time.js',
+   //'bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js',
+   //
+
+     "flot-legacy/jquery.flot.cust.min.js",
+     "flot-legacy/jquery.flot.resize.min.js",
+     "flot-legacy/jquery.flot.fillbetween.min.js",
+     "flot-legacy/jquery.flot.orderBar.min.js",
+     "flot-legacy/jquery.flot.pie.min.js",
+     "flot-legacy/jquery.flot.time.min.js",
+     "flot-legacy/jquery.flot.tooltip.min.js"
   ] ,
   datatables: [
         'bower_components/datatables.net/js/jquery.dataTables.js',
@@ -51,13 +60,13 @@ const uglifyBundle = (name)=>{
 
 gulp.task('concat', ()=>{
    concatBundle('flot');
-   concatBundle('datatables')
+ //  concatBundle('datatables')
 })
 
 gulp.task('uglify', ()=>{
 
    uglifyBundle('flot');
-   uglifyBundle('datatables')
+// uglifyBundle('datatables')
 })
 
 gulp.task
